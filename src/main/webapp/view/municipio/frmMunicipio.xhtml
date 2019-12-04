@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Web Fiscalização - Lista Municipio</title>
+</h:head>
+
+<h:body>
+	<h:form id="busca">
+		<p:panel header="Pesquisar por Municípios"	rendered="#{municipioBean.listando}">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Uf:" />
+				<p:selectOneMenu value="#{municipioBean.filtro.ufId}">
+					<f:selectItem  itemValue="#{null}" itemLabel="" />
+					<f:selectItems value="#{municipioBean.listaUfs()}" var="uf"
+						itemValue="#{uf.id}" itemLabel="#{uf.nome}" />
+				</p:selectOneMenu>
+				<p:outputLabel>Nome:</p:outputLabel>
+				<p:inputText id="nome" label="Nome"
+					value="#{municipioBean.filtro.nomeMunicipio}">
+				</p:inputText>
+				<p:commandButton value="Buscar" id="nonAjax" ajax="false"
+					actionListener="#{municipioBean.buscaMunicipio()}" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+	<h:form id="lista">
+		<p:panel rendered="#{municipioBean.listando}"
+			header="Listagem de Municípios">
+			<p:commandButton value="Incluir"
+				actionListener="#{municipioBean.solicitaIncluir()}" update="@all"
+				process="@form" />
+			<p:commandButton value="Voltar" action="/view/menu/menu.xhtml"
+				process="@this" />
+			<br />
+			<br />
+			<p:dataTable var="c" value="#{municipioBean.municipios}" emptyMessage="Nenhum municipio encontrado com estes termos!!">
+				<p:column headerText="Nome">
+					<h:outputText value="#{c.nome}" />
+				</p:column>
+
+				<p:column headerText="Uf">
+					<h:outputText value="#{c.uf}" />
+				</p:column>
+
+				<p:column headerText="Ação">
+					<p:commandButton value="Excluir" ajax="false" update="@all"
+						process="@this"
+						actionListener="#{municipioBean.confirmaExclusao(c.id)}" />
+					<p:commandButton value="Alterar" ajax="false" process="@this"
+						update="@all" actionListener="#{municipioBean.solicitaAlterar(c.id)}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+	<h:form id="cadastro">
+		<p:messages autoUpdate="true" showDetail="true" />
+		<p:panel header="Cadastro de Municipio"	rendered="#{municipioBean.editando}">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome do Municipio:" for="nome" />
+				<p:inputText id="nome" value="#{municipioBean.municipio.nome}" style="width: 100%;" />
+
+				<p:outputLabel value="Uf:" />
+				<h:selectOneMenu value="#{municipioBean.idUfSelecionada}" >
+					<f:selectItem  itemValue="#{null}" itemLabel="" />
+					<f:selectItems value="#{municipioBean.listaUfs()}" var="uf" itemValue="#{uf.id}" itemLabel="#{uf.nome}" />
+				</h:selectOneMenu>
+				<p:spacer />
+				<h:panelGroup rendered="#{municipioBean.incluindo}">
+					<p:commandButton value="Cadastrar" process="@form" update="@all"
+						actionListener="#{municipioBean.confirmaInclusao()}" />
+					<p:commandButton value="Cancelar" process="@form" update="@all"
+						actionListener="#{municipioBean.cancelarInclusao()}" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{municipioBean.alterando}">
+					<p:commandButton value="Alterar" process="@form" update="@all"
+						actionListener="#{municipioBean.confirmaAlteracao()}" />
+					<p:commandButton value="Cancelar" process="@form" update="@all"
+						actionListener="#{municipioBean.cancelarAlteracao()}" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+
+</html>

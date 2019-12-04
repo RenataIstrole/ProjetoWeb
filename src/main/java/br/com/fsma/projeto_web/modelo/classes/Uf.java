@@ -1,4 +1,4 @@
-package br.com.fsma.projeto_web.modelo.negocio;
+package br.com.fsma.projeto_web.modelo.classes;
 
 import java.io.Serializable;
 
@@ -11,21 +11,22 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "uf", indexes = {
-		@Index(name="buscauf_nome", columnList = "nome")
-})
-public class Uf implements Serializable{
+@Table(name = "uf", indexes = { @Index(name = "buscauf_nome", columnList = "nome") })
+
+public class Uf implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "nome", nullable = false, length = 20)
+
+	@Column(nullable = false, length = 20)
 	private String nome;
-	@Column(name = "sigla", nullable = false, length = 2)
+
+	@Column(nullable = false, length = 2)
 	private String sigla;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -57,7 +58,7 @@ public class Uf implements Serializable{
 		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -71,12 +72,10 @@ public class Uf implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Uf [sigla=" + sigla + "]";
+		return sigla;
 	}
-	
-	
-	
+
 }

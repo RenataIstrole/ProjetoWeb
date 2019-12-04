@@ -1,6 +1,5 @@
 package br.com.fsma.projeto_web.util;
 
-import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -8,7 +7,7 @@ import javax.faces.event.PhaseListener;
 //import javax.inject.Inject;
 //import javax.servlet.http.HttpSession;
 
-import br.com.fsma.projeto_web.modelo.negocio.Usuario;
+import br.com.fsma.projeto_web.modelo.classes.Usuario;
 
 public class Autorizador implements PhaseListener {
 
@@ -20,24 +19,18 @@ public class Autorizador implements PhaseListener {
 		FacesContext context = evento.getFacesContext();
 		String nomePagina = context.getViewRoot().getViewId();
 		System.out.println("Nome da página: " + nomePagina);
-		if (nomePagina.endsWith("/login/login.xhtml") ||
-			nomePagina.endsWith("/login/recuperarSenha.xhtml") || 
-			nomePagina.endsWith("/login/novoLogin.xhtml")) {
+		if (nomePagina.endsWith("/login/login.xhtml") || nomePagina.endsWith("/login/recuperarSenha.xhtml")
+				|| nomePagina.endsWith("/login/novoLogin.xhtml")) {
 			return;
 		}
-		
+
 		Usuario usuarioLogado = (Usuario) context.getExternalContext().getSessionMap().get("usuarioLogado");
-		
-		if(usuarioLogado != null) {
+
+		if (usuarioLogado != null) {
 			System.out.println("Usuário está logado");
 			return;
 		}
-		
-		// Redirecionamento para login.xhtml
-//		NavigationHandler handler = context.getApplication().getNavigationHandler();
-//		handler.handleNavigation(context, null, "/view/login/login?faces-redirect=true");
-//		context.renderResponse();
-	} 
+	}
 
 	@Override
 	public void beforePhase(PhaseEvent evento) {

@@ -37,12 +37,12 @@
 	<!--  Especifica o tema que o Primefaces deve utilizar -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>afternoon</param-value>
+		<param-value>bootstrap</param-value>
 	</context-param> -
 	
 	<!-- Página principal da aplicação -->
 	<welcome-file-list>
-		<welcome-file>view/login/login.xhtml</welcome-file>
+		<welcome-file>view/menu/menu.xhtml</welcome-file>
 	</welcome-file-list>
 	
 	

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Web Fiscalização - Lista Bairros</title>
+</h:head>
+
+<h:body>
+	<h:form id="lista">
+		<p:panel rendered="#{bairroBean.listando}" header="Busca por Bairros">
+
+			<h:panelGroup>
+				<h:panelGrid columns="3" style="width: 40%;">
+					<p:outputLabel value="Uf:  " />
+					<p:selectOneMenu value="#{bairroBean.ufIdFiltro}">
+						<f:selectItems value="#{bairroBean.listaUfs()}" var="uf"
+							itemValue="#{uf.id}" itemLabel="#{uf.nome}" />
+						<p:ajax event="change" update=":lista:municipio" />
+					</p:selectOneMenu>
+					<br />
+					<p:outputLabel value="Municipio:  " />
+					<p:selectOneMenu id="municipio"
+						value="#{bairroBean.filtro.municipioId}">
+						<f:selectItems value="#{bairroBean.listaMunicipios()}"
+							var="municipio" itemValue="#{municipio.id}"
+							itemLabel="#{municipio.nome}" />
+					</p:selectOneMenu>
+					<br />
+					<br />
+					<p:outputLabel>Nome:  </p:outputLabel>
+					<p:inputText id="nome" label="Nome"
+						value="#{bairroBean.filtro.nomeBairro}">
+					</p:inputText>
+					<p:commandButton value="Buscar" id="nonAjax" ajax="false"
+						actionListener="#{bairroBean.buscaBairro()}" />
+				</h:panelGrid>
+			</h:panelGroup>
+		</p:panel>
+	</h:form>
+
+
+	<h:form id="listabairro">
+		<p:panel header="Listagem de Bairros"
+			rendered="#{bairroBean.listando}">
+			<p:commandButton value="Incluir"
+				actionListener="#{bairroBean.solicitaIncluir()}" update="@all"
+				process="@form" />
+			<p:commandButton value="Voltar" action="/view/menu/menu.xhtml"
+				process="@this" />
+			<br />
+			<br />
+			<p:dataTable var="b" value="#{bairroBean.bairros}">
+				<p:column headerText="Nome">
+					<h:outputText value="#{b.nome}" />
+				</p:column>
+
+				<p:column headerText="Municipio">
+					<h:outputText value="#{b.municipio}" />
+				</p:column>
+
+				<p:column headerText="Uf">
+					<h:outputText value="#{b.uf}" />
+				</p:column>
+
+				<p:column headerText="Ação">
+					<p:commandButton value="Excluir" ajax="false" update="@all"
+						process="@this"
+						actionListener="#{bairroBean.confirmaExclusao(b.id)}" />
+					<p:commandButton value="Alterar" ajax="false" process="@this"
+						update="@all" actionListener="#{bairroBean.solicitaAlterar(b.id)}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<h:form id="cadastro">
+		<p:messages autoUpdate="true" showDetail="true" />
+		<p:panel header="Cadastro de Bairro" rendered="#{bairroBean.editando}">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Uf:  " />
+				<p:selectOneMenu value="#{bairroBean.idUfSelecionada}">
+					<f:selectItem  itemValue="#{null}" itemLabel="" />
+					<f:selectItems value="#{bairroBean.listaUfs()}" var="uf" itemValue="#{uf.id}" itemLabel="#{uf.nome}" />
+					<p:ajax event="change" update=":cadastro:municipio" process="@this" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Municipio:  " />
+				<p:selectOneMenu id="municipio"	value="#{bairroBean.idMunicipioSelecionada}">
+					<f:selectItems value="#{bairroBean.listaMunicipiosCad()}" var="municipio" itemValue="#{municipio.id}"	itemLabel="#{municipio.nome}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Nome do Bairro:  " for="nome" />
+				<p:inputText id="nome" value="#{bairroBean.bairro.nome}" />
+				
+				<p:spacer />
+				<h:panelGroup rendered="#{bairroBean.incluindo}">
+					<p:commandButton value="Cadastrar" process="@form" update="@all"
+						actionListener="#{bairroBean.confirmaInclusao()}" />
+					<p:commandButton value="Cancelar" process="@form" update="@all"
+						actionListener="#{bairroBean.cancelarInclusao()}" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{bairroBean.alterando}">
+					<p:commandButton value="Alterar" process="@form" update="@all"
+						actionListener="#{bairroBean.confirmaAlteracao()}" />
+					<p:commandButton value="Cancelar" process="@form" update="@all"
+						actionListener="#{bairroBean.cancelarAlteracao()}" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+</h:body>
+</html>

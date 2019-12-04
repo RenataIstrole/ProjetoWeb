@@ -6,18 +6,21 @@
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Projeto Web - Menu</title>
-	<link type="text/css" rel="stylesheet"	href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css" />
 </h:head>
 
 <h:body>
-	<h:form id="frmMenu" >
-		<h1>Usuário: #{loginBean.usuario.login}</h1>
+	<h:form id="frmMenu">
 		<p:panel header="Projeto Web - Menu" style="width: 400px;">
-			<p:commandButton value="Uf" action="#{ufBean.acessoUf}" process="@this"/>
-			<br/>
-			<p:commandButton value="Cidade" action="#{cidadeBean.acessoCidade}" process="@this"/>
-			<br/>
-			<p:commandButton value="Desloga" action="#{loginBean.desloga}" process="@this"/>
+			<p:commandButton value="UF" action="/view/uf/frmUf.xhtml" process="@this" />
+			<br />
+			<br />
+			<p:commandButton value="Município" action="/view/municipio/frmMunicipio" process="@this" />
+			<br />
+			<br />
+			<p:commandButton value="Bairro" action="/view/bairro/frmBairro" process="@this" />		
+			<br />	
 		</p:panel>
 	</h:form>
 

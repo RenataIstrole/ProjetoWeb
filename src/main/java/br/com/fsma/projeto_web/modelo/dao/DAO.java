@@ -9,7 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 public class DAO<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private final Class<T> classe;
 	private EntityManager em;
 
@@ -50,8 +50,7 @@ public class DAO<T> implements Serializable {
 		CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(classe);
 		query.select(query.from(classe));
 
-		List<T> lista = em.createQuery(query).setFirstResult(firstResult)
-				.setMaxResults(maxResults).getResultList();
+		List<T> lista = em.createQuery(query).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
 
 		return lista;
 	}

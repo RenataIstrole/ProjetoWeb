@@ -1,4 +1,4 @@
-package br.com.fsma.projeto_web.modelo.negocio;
+package br.com.fsma.projeto_web.modelo.classes;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,20 +13,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario implements Serializable {
 
+public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private Long id;
-	@Column(name = "login", length = 50, nullable = false, unique = true)
+
+	@Column(length = 50, nullable = false, unique = true)
 	private String login;
+
 	@Column(nullable = false, insertable = true, updatable = false)
 	private LocalDateTime dataDoCadastro;
-	@Column(name = "senha", length = 50, nullable = false)
+
+	@Column(length = 50, nullable = false)
 	private String senha;
+
 	private LocalDateTime dataDoUltimoAcesso;
 
 	public Long getId() {

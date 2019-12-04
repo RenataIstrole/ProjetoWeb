@@ -5,48 +5,50 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 	<meta charset="UTF-8" />
-	<title>Projeto Web - Unidades Federativas</title>
-	<link type="text/css" rel="stylesheet"
-		href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css" />
+	<title>Web Fiscalização - Lista UF</title>
 </h:head>
 
 <h:body>
-
-	<h:form id="frmLista">
+	<h:form id="lista">
 		<p:panel rendered="#{ufBean.listando}"
-			header="Lista de Unidades Federativas">
+			header="Listagem das Unidades Federativas">
 			<p:commandButton value="Incluir" action="#{ufBean.solicitaIncluir()}"
 				update="@all" process="@form" />
-			<p:dataTable var="uf" value="#{ufBean.ufs}">
+			<p:commandButton value="Voltar" action="/view/menu/menu.xhtml"
+				process="@this" />
+			<br />
+			<br />
 
+			<p:dataTable var="uf" value="#{ufBean.ufs}">
 				<p:column headerText="Nome">
 					<h:outputText value="#{uf.nome}" />
 				</p:column>
-
 				<p:column headerText="Sigla">
 					<h:outputText value="#{uf.sigla}" />
 				</p:column>
 
-				<p:column headerText="Ação">
-					<p:commandButton value="Excluir" actionListener="#{ufBean.confirmaExclusao(uf.id)}" ajax="false" process="@this" update="@all" />
-					<p:commandButton value="Alterar" actionListener="#{ufBean.solicitaAlterar(uf.id)}" ajax="false" process="@this" update="@all" />
+				<p:column>
+					<p:commandButton value="Excluir"
+						actionListener="#{ufBean.confirmaExclusao(uf.id)}" ajax="false"
+						process="@this" update="@all">
+					</p:commandButton>
+					<p:commandButton value="Alterar"
+						actionListener="#{ufBean.solicitaAlterar(uf.id)}" ajax="false"
+						process="@this" update="@all" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>
 	</h:form>
 
-	<h:form id="frmCadastro">
+	<h:form id="cadastro">
 		<p:messages autoUpdate="true" showDetail="true" />
-		<p:panel rendered="#{ufBean.editando}"
-			header="Cadastro de Unidade Federativa (UF)" style="width: 30%;">
-			<h:panelGrid columns="2" style="width: 100%;">
-				<p:outputLabel value="Nome da (UF):" for="nome" />
-				<p:inputText id="nome" value="#{ufBean.uf.nome}"
-					style="width: 100%;" />
+		<p:panel rendered="#{ufBean.editando}" header="Cadastro">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" for="nome" />
+				<p:inputText id="nome" value="#{ufBean.uf.nome}" />
 
 				<p:outputLabel value="Sigla:" for="sigla" />
-				<p:inputMask id="sigla" value="#{ufBean.uf.sigla}"
-					style="width: 100%;" mask="a*" />
+				<p:inputMask id="sigla" value="#{ufBean.uf.sigla}" />
 
 				<p:spacer />
 				<h:panelGroup rendered="#{ufBean.incluindo}">
@@ -58,7 +60,7 @@
 				<h:panelGroup rendered="#{ufBean.alterando}">
 					<p:commandButton value="Alterar" process="@form" update="@all"
 						actionListener="#{ufBean.confirmaAlteracao()}" />
-						<p:commandButton value="Cancelar" process="@form" update="@all"
+					<p:commandButton value="Cancelar" process="@form" update="@all"
 						actionListener="#{ufBean.cancelarAlteracao()}" />
 				</h:panelGroup>
 			</h:panelGrid>
